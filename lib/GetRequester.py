@@ -7,7 +7,13 @@ class GetRequester:
         self.url = url
 
     def get_response_body(self):
-        pass
+        response = requests.get(self.url)
+        return response.content
 
     def load_json(self):
-        pass
+        response_body = self.get_response_body()
+        try:
+            response_text = response_body.decode('utf-8')  # Decode bytes to UTF-8 (string like) so you can correctly parse it as json
+            return json.loads(response_text)  # Parse as JSON
+        except ValueError:
+            return None
